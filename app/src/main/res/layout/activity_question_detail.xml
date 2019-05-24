@@ -10,11 +10,22 @@
                 tools:context=".QuestionDetailActivity">
 
     <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="395dp"
+            android:layout_height="645dp"
             android:id="@+id/listView"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/favourite"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="お気に入り登録"
+            />
+
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
