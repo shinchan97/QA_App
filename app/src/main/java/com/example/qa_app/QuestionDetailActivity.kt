@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Button
 import android.widget.ListView
 
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_question_detail.*
 
 import java.util.HashMap
@@ -99,5 +101,30 @@ class QuestionDetailActivity : AppCompatActivity() {
         val dataBaseReference = FirebaseDatabase.getInstance().reference
         mAnswerRef = dataBaseReference.child(ContentsPATH).child(mQuestion.genre.toString()).child(mQuestion.questionUid).child(AnswersPATH)
         mAnswerRef.addChildEventListener(mEventListener)
+
+        val user = FirebaseAuth.getInstance().currentUser
+
+        if (user == null) {
+            val btn = this.findViewById<Button>(R.id.favourite)
+            btn.isClickable = false
+            btn.visibility = View.INVISIBLE
+        }
+
+        favourite.setOnClickListener {
+            val dataBaseReference = FirebaseDatabase.getInstance().reference
+            val genreRef = dataBaseReference.child(FavouritePATH)//.child(質問のID？)
+
+            val data = HashMap<String, String>()
+
+            // save the current user ID
+            data["uid"]=FirebaseAuth.getInstance().currentUser!!.uid
+            data["question"]=mQuestion.genre.toString()
+            data["question_id"]=mQuestion.questionUid
+
+            genreRef.push().setValue(data, this)
+            progressBar.visibility = View.VISIBLE
+            }
+        }
     }
-}
+
+
