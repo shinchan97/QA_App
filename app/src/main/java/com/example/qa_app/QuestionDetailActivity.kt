@@ -110,19 +110,21 @@ class QuestionDetailActivity : AppCompatActivity() {
             btn.visibility = View.INVISIBLE
         }
 
+
         favourite.setOnClickListener {
             val dataBaseReference = FirebaseDatabase.getInstance().reference
-            val genreRef = dataBaseReference.child(FavouritePATH)//.child(質問のID？)
+            val genreRef = dataBaseReference.child(FavouritePATH).child(user!!.uid).child(mQuestion.questionUid)
 
             val data = HashMap<String, String>()
 
             // save the current user ID
-            data["uid"]=FirebaseAuth.getInstance().currentUser!!.uid
+            //data["uid"]=FirebaseAuth.getInstance().currentUser!!.uid
             data["question"]=mQuestion.genre.toString()
-            data["question_id"]=mQuestion.questionUid
+            //data["question_id"]=mQuestion.questionUid
 
-            genreRef.push().setValue(data, this)
-            progressBar.visibility = View.VISIBLE
+            //genreRef.push().setValue(data, this)
+            genreRef.setValue(data)
+            //progressBar.visibility = View.VISIBLE
             }
         }
     }
