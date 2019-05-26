@@ -10,11 +10,7 @@ import android.widget.ListView
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_question_detail.*
 
@@ -111,22 +107,52 @@ class QuestionDetailActivity : AppCompatActivity() {
         }
 
 
+
+        //val dataBaseReference = FirebaseDatabase.getInstance().reference
+        val genreRef = dataBaseReference.child(FavouritePATH).child(user!!.uid).child(mQuestion.questionUid)
+        val favourite_check = genreRef!!.addChildEventListener(mmEventListener)
+
         favourite.setOnClickListener {
-            val dataBaseReference = FirebaseDatabase.getInstance().reference
-            val genreRef = dataBaseReference.child(FavouritePATH).child(user!!.uid).child(mQuestion.questionUid)
+            //val dataBaseReference = FirebaseDatabase.getInstance().reference
+            //val genreRef = dataBaseReference.child(FavouritePATH).child(user!!.uid).child(mQuestion.questionUid)
 
             val data = HashMap<String, String>()
 
-            // save the current user ID
-            //data["uid"]=FirebaseAuth.getInstance().currentUser!!.uid
+            // save the question genre with current user ID and question ID
             data["question"]=mQuestion.genre.toString()
-            //data["question_id"]=mQuestion.questionUid
+            genreRef.setValue(data)
+
+            favourite.text = "登録済み"
+
+
 
             //genreRef.push().setValue(data, this)
-            genreRef.setValue(data)
             //progressBar.visibility = View.VISIBLE
             }
         }
+    private val mmEventListener = object: ChildEventListener {
+        override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onChildRemoved(p0: DataSnapshot) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onCancelled(p0: DatabaseError) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        }
+
+    }
     }
 
 
