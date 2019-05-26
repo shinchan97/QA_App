@@ -21,6 +21,7 @@ class QuestionDetailActivity : AppCompatActivity() {
     private lateinit var mQuestion: Question
     private lateinit var mAdapter: QuestionDetailListAdapter
     private lateinit var mAnswerRef: DatabaseReference
+    private var favourite_check: Boolean = false
 
     private val mEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
@@ -110,7 +111,7 @@ class QuestionDetailActivity : AppCompatActivity() {
 
         //val dataBaseReference = FirebaseDatabase.getInstance().reference
         val genreRef = dataBaseReference.child(FavouritePATH).child(user!!.uid).child(mQuestion.questionUid)
-        val favourite_check = genreRef!!.addChildEventListener(mmEventListener)
+        genreRef!!.addChildEventListener(mmEventListener)
 
         favourite.setOnClickListener {
             //val dataBaseReference = FirebaseDatabase.getInstance().reference
